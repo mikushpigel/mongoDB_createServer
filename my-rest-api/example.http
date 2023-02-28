@@ -1,0 +1,52 @@
+@local=http://localhost:3001
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2U4ZjUyMGFmOGYzYmMzMTJmOTMwY2QiLCJiaXoiOnRydWUsImlhdCI6MTY3NjIyNjM2NH0.aCxAXUZown1gc3whfIyeeAWX1Q8yl8nJudqYCXobQfQ
+@token111=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2U5NDU2ODQwNGRmMzM1YTc3MzBiOWMiLCJiaXoiOnRydWUsImlhdCI6MTY3NjIzMjQ5MH0.eUl7AWjJGmhflooz36qiO6IZp20r20aG0LAJ-1sFVWY
+###
+
+POST {{local}}/users/
+Content-Type: application/json
+
+{
+    "name": "raaa",
+    "email": "a@agmail.com",
+    "password": "111111",
+    "biz": true   
+}
+
+###
+POST {{local}}/auth/
+Content-Type: application/json
+
+{
+   "email": "a@agmail.com",
+    "password": "111111"
+}
+
+###
+GET {{local}}/users/me
+x-auth-token: {{token111}}
+
+###
+POST {{local}}/mycards/create
+x-auth-token: {{token}}
+Content-Type: application/json
+
+{
+"bizName": "rotemmmm company",
+"bizAddress":"a.v tlv",
+"bizPhone": "0568989888",
+"bizDescription": "i love my company"
+}
+
+###
+
+PATCH  {{local}}/mycards/update/63ea32a03634239328f6b8e0
+x-auth-token: {{token}}
+Content-Type: application/json
+
+{
+"bizName": "walla",
+"bizPhone": "0507881185"
+}
+
+
