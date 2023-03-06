@@ -37,7 +37,6 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign({ _id: this._id, biz: this.biz }, JWT_TOKEN);
-  console.log(JWT_TOKEN);
   return token;
 };
 //A model is a class with which we construct documents. In this case, each document will be a kitten with properties and behaviors as declared in our schema.
@@ -53,7 +52,27 @@ const validateUser = (user) => {
   return schema.validate(user, { abortEarly: false });
 };
 
+const validateEmail = (userEmail) => {
+  const schema = Joi.object({
+    email: Joi.string().email().required(),
+  });
+  return schema.validate(userEmail);
+};
+const validatePassword = (userPass) => {
+  const schema = Joi.object({
+    password: Joi.string().min(6).max(1024).required(),
+    "confirm-password": Joi.any()
+      .equal(Joi.ref("password"))
+      .required()
+      .label("Confirm password")
+      .messages({ "any.only": "{{#label}} does not match" }),
+  });
+  return schema.validate(userPass);
+};
+
 module.exports = {
   User,
   validateUser,
+  validateEmail,
+  validatePassword,
 };

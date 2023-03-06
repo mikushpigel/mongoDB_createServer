@@ -7,10 +7,10 @@ POST {{local}}/users/
 Content-Type: application/json
 
 {
-    "name": "raaa",
-    "email": "a@agmail.com",
-    "password": "111111",
-    "biz": true   
+    "name": "rotem",
+    "email": "a@1dddgmail.com",
+    "password": "1dfdfdfdfdf1",
+    "biz": false   
 }
 
 ###
@@ -28,7 +28,7 @@ x-auth-token: {{token111}}
 
 ###
 POST {{local}}/mycards/create
-x-auth-token: {{token}}
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Y3NzI4YzQ4YWU0MjBiNDY0ZWU4ZGUiLCJiaXoiOmZhbHNlLCJpYXQiOjE2NzcxNjE1NjZ9.8TF1hZGVa8z7CUhraXLnScUi8pUrUetf9geKF8gOnCc
 Content-Type: application/json
 
 {
@@ -49,4 +49,14 @@ Content-Type: application/json
 "bizPhone": "0507881185"
 }
 
+###
+POST {{local}}/users/recovery-password
+Content-Type: application/json
 
+{
+    "email": "a@1.gmail.com"
+}
+###
+
+GET {{local}}/mycards/getAllCards
+x-auth-token: {{token}}

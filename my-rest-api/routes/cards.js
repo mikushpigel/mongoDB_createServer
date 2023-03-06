@@ -53,4 +53,9 @@ router.patch("/update/:id", authMW, async (req, res) => {
   res.send(card);
 });
 
+router.get("/getAllCards", authMW, async (req, res) => {
+  const cards = await Card.find({ user_id: req.userId });
+  res.send(cards);
+});
+
 module.exports = router;
