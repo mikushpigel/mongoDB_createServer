@@ -53,9 +53,32 @@ router.patch("/update/:id", authMW, async (req, res) => {
   res.send(card);
 });
 
-router.get("/getAllCards", authMW, async (req, res) => {
+router.get("/all", authMW, async (req, res) => {
   const cards = await Card.find({ user_id: req.userId });
   res.send(cards);
+});
+
+router.get("/find/:id", authMW, async (req, res) => {
+  const card = await Card.findOne({ _id: req.params.id, user_id: req.userId });
+  if (!card) {
+    res.status(404).send("No card found with this ID");
+    return;
+  }
+
+  res.send(card);
+});
+
+router.delete("/delete/:id", authMW, async (req, res) => {
+  const card = await Card.findByIdAndRemove({
+    _id: req.params.id,
+    user_id: req.userId,
+  });
+
+  if (!card) {
+    res.status(404).send("No card found with this ID");
+    return;
+  }
+  res.send(card);
 });
 
 module.exports = router;

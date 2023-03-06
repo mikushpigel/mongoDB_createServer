@@ -45,7 +45,7 @@ x-auth-token: {{token}}
 Content-Type: application/json
 
 {
-"bizName": "walla",
+"bizName": "woww",
 "bizPhone": "0507881185"
 }
 
@@ -58,5 +58,12 @@ Content-Type: application/json
 }
 ###
 
-GET {{local}}/mycards/getAllCards
+GET {{local}}/mycards/all
+x-auth-token: {{token}}
+
+###
+GET {{local}}/mycards/find/63e9427cd9ee85eb6b8f6a60
+x-auth-token: {{token}}
+###
+DELETE {{local}}/mycards/delete/63e9427cd9ee85eb6b8f6a60
 x-auth-token: {{token}}
