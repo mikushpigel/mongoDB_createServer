@@ -20,10 +20,12 @@ app.use(express.urlencoded({ extended: false }));
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const cardRouter = require("./routes/cards");
+const allCardsRouter = require("./routes/allcards");
 
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
 app.use("/mycards", cardRouter);
+app.use("/allcards", allCardsRouter);
 
 const PORT = 3001;
 app.listen(PORT, console.log(`listenning mongoDB on port ${PORT}`));
