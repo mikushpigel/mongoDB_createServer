@@ -41,52 +41,53 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/recovery-password", async (req, res) => {
-  const { email } = req.body;
   const { error } = validateEmail(req.body);
   if (error) {
     const { details } = error;
-    res.status(400).send(details.map((detail) => detail.message));
+    res.status(400).send(details[0].message);
+    return;
+  }
+  const { email } = req.body;
+  const isExist = await User.findOne({ email: email });
+  if (!isExist) {
+    res.status(400).send("email does not exist!");
     return;
   }
 
-  try {
-    const oldUser = await User.findOne({ email });
-    if (!oldUser) {
-      res.status(400).send("no account founded");
-      return;
+  console.log("founded", email);
+
+  const secret = JWT_TOKEN + isExist.password;
+  const payload = {
+    email: email,
+    _id: isExist._id,
+  };
+  const token = jwt.sign(payload, secret, { expiresIn: "15m" });
+  res.status(200).send("founded");
+  const link = `http://localhost:3001/users/reset-password/${isExist._id}/${token}`;
+  console.log(link);
+
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "yammyrecipess@gmail.com",
+      pass: "chfwoiuudzpnvljk",
+    },
+  });
+
+  var mailOptions = {
+    from: "yammyrecipess@gmail.com",
+    to: email,
+    subject: "reset-password",
+    text: link,
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent: " + info.response);
     }
-    res.status(200).send("found");
-    const secret = JWT_TOKEN + oldUser.password;
-    const token = jwt.sign({ email: oldUser.email, _id: oldUser._id }, secret, {
-      expiresIn: "5m",
-    });
-    const link = `http://localhost:3001/users/reset-password/${oldUser._id}/${token}`;
-
-    var transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "yammyrecipess@gmail.com",
-        pass: "yammy555",
-      },
-    });
-
-    var mailOptions = {
-      from: "blabla@gmail.com",
-      to: "shpigelmika@gmail.com",
-      subject: "reset-password",
-      text: link,
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
-  } catch (error) {
-    console.log("catch error", error);
-  }
+  });
 });
 
 router.get("/reset-password/:id/:token", async (req, res) => {
@@ -94,7 +95,7 @@ router.get("/reset-password/:id/:token", async (req, res) => {
   console.log(req.params);
   const oldUser = await User.findOne({ _id: id });
   if (!oldUser) {
-    res.status(400).send("User not Exists!");
+    res.status(400).send("User ID not Exists!");
     return;
   }
   const secret = JWT_TOKEN + oldUser.password;

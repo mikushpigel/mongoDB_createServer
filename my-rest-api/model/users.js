@@ -36,7 +36,10 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id, biz: this.biz }, JWT_TOKEN);
+  const token = jwt.sign(
+    { _id: this._id, biz: this.biz, name: this.name },
+    JWT_TOKEN
+  );
   return token;
 };
 //A model is a class with which we construct documents. In this case, each document will be a kitten with properties and behaviors as declared in our schema.

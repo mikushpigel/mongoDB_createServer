@@ -61,7 +61,7 @@ router.get("/all", authMW, async (req, res) => {
 router.get("/find/:id", authMW, async (req, res) => {
   const card = await Card.findOne({ _id: req.params.id, user_id: req.userId });
   if (!card) {
-    res.status(404).send("No card found with this ID");
+    res.status(400).send("No card found with this ID");
     return;
   }
 

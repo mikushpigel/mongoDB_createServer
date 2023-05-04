@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
     "name": "rotem",
-    "email": "a@1dddgmail.com",
+    "email": "a@a.com",
     "password": "1dfdfdfdfdf1",
     "biz": false   
 }
@@ -18,8 +18,8 @@ POST {{local}}/auth/
 Content-Type: application/json
 
 {
-   "email": "a@agmail.com",
-    "password": "111111"
+   "email": "a@a.com",
+    "password": "1dfdfdfdfdf1"
 }
 
 ###
@@ -32,7 +32,7 @@ x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Y3NzI4YzQ4YWU0M
 Content-Type: application/json
 
 {
-"bizName": "rotemmmm company",
+"bizName": "rotemmmm 21 company",
 "bizAddress":"a.v tlv",
 "bizPhone": "0568989888",
 "bizDescription": "i love my company"
@@ -45,7 +45,7 @@ x-auth-token: {{token}}
 Content-Type: application/json
 
 {
-"bizName": "woww",
+"bizName": "wocccccww",
 "bizPhone": "0507881185"
 }
 
@@ -67,3 +67,55 @@ x-auth-token: {{token}}
 ###
 DELETE {{local}}/mycards/delete/63e9427cd9ee85eb6b8f6a60
 x-auth-token: {{token}}
+
+###
+GET {{local}}/allcards
+
+###
+POST {{local}}/myfav/
+x-auth-token: {{token}}
+Content-Type: application/json
+
+{
+    "fullRecipe": {"rotem":12555534}
+}
+###
+GET {{local}}/myfav/all
+x-auth-token: {{token111}}
+
+###
+DELETE {{local}}/myfav/
+x-auth-token: {{token}}
+
+###
+GET  {{local}}/mybuylist/all
+x-auth-token: {{token}}
+
+###
+POST {{local}}/mybuylist
+x-auth-token: {{token}}
+Content-Type: application/json
+
+{
+    "prod": "milki",
+    "id": 2345678,
+    "isComplete": false,
+    "isEdit": false,
+    "amount": 1
+}
+
+###
+DELETE {{local}}/mybuylist/deleteAll
+x-auth-token: {{token}}
+
+###
+PATCH  {{local}}/mybuylist/edit/6411fd76e16a3183cedf9845
+x-auth-token: {{token}}
+Content-Type: application/json
+
+{"amount": 85,"prod":"or"}
+
+
+
+
+
